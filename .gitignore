@@ -1,0 +1,31 @@
+# --- シミュレーション生成物 ---
+build/
+*.vvp
+*.vcd
+*.ppm
+frame.png
+
+# --- FPGAツールのビルド成果物 ---
+*.bin
+*.bit
+*.asc
+*.json
+*.rpt
+*.log
+
+# Vivado / Quartus / Gowin など
+*.jou
+*.str
+*.cache/
+*.runs/
+*.gen/
+*.hw/
+*.ip_user_files/
+impl/
+gwork/
+
+# --- OS / エディタ ---
+.DS_Store
+*~
+*.swp
+.vscode/
