@@ -70,16 +70,19 @@ module draw_main(
 
     reg [9:0] padL_y = 200;
     reg [9:0] padR_y = 200;
-    
+
     always @(posedge pix_clk) begin
         if (frame_tick) begin
             if (up_L   && padL_y > 2)        padL_y <= padL_y - PSPD;
             if (down_L && padL_y + PH < 478) padL_y <= padL_y + PSPD;
-    
+
             if (up_R   && padR_y > 2)        padR_y <= padR_y - PSPD;
             if (down_R && padR_y + PH < 478) padR_y <= padR_y + PSPD;
         end
     end
+
+    
+
 
     
 
