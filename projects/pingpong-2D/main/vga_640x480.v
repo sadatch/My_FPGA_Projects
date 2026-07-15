@@ -4,12 +4,12 @@
 //   役割: pix_clk を数えて「今どこを描いているか」を出すだけ。
 //     - x, y      : 表示領域内の座標 (0..639, 0..479)
 //     - visible   : いま表示領域の中か (色を出していいか)
-//     - hsync/vsync: モニタへの同期信号 (負論理)
+//     - Hsync/Vsync: モニタへの同期信号 (負論理)
 // =============================================================
 module vga_640x480(
     input  wire pix_clk,
-    output wire hsync,
-    output wire vsync,
+    output wire Hsync,
+    output wire Vsync,
     output wire visible,
     output wire [9:0] x,
     output wire [9:0] y
@@ -35,8 +35,8 @@ module vga_640x480(
     assign x = h_count;
     assign y = v_count;
 
-    assign hsync = ~((h_count >= H_visible + H_front) &&
+    assign Hsync = ~((h_count >= H_visible + H_front) &&
                      (h_count < H_visible + H_front + H_sync));
-    assign vsync = ~((v_count >= V_visible + V_front) &&
+    assign Vsync = ~((v_count >= V_visible + V_front) &&
                      (v_count < V_visible + V_front + V_sync));
 endmodule

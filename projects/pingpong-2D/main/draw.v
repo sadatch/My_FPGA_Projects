@@ -81,6 +81,39 @@ module draw_main(
         end
     end
 
+    reg [19:0] refresh_cnt = 0;
+    always @(posedge pix_clk) refresh_cnt <= refresh_cnt + 1'b1;
+
+    wire [1:0] digit_sel = refresh_cnt[19:18];  
+
+    reg [3:0] current_digit;
+    reg [3:0] an;
+
+    always @(*) begin
+        case (digit_sel)
+            2'b00: begin current_digit = scoreR; an = 4'b1110; end //一番右 右の人のスコア
+            2'b01: begin current_digit = 4'hF;   an = 4'b1101; end //消灯
+            2'b10: begin current_digit = scoreL; an = 4'b1011; end //一番左 左の人のスコア
+            2'b11: begin current_digit = 4'hF;   an = 4'b0111; end //消灯
+        endcase
+    end
+
+    always @(*) begin
+        case (current_digit)
+            //                   gfedcba
+            4'h0: seg = 7'b1000000;  // 0
+            4'h1: seg = 7'b1111001;  // 1
+            4'h2: seg = 7'b0100100;  // 2
+            4'h3: seg = 7'b0110000;  // 3
+            4'h4: seg = 7'b0011001;  // 4
+            4'h5: seg = 7'b0010010;  // 5
+            4'h6: seg = 7'b0000010;  // 6
+            4'h7: seg = 7'b1111000;  // 7
+            4'h8: seg = 7'b0000000;  // 8
+            4'h9: seg = 7'b0010000;  // 9
+            default: seg = 7'b1111111; // 消灯
+        endcase
+    end
     
 
 
