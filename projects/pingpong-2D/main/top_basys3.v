@@ -31,7 +31,14 @@ module top_basys3(
         .x(x),
         .y(y)
     );
-    assign vgaRed   = (visible) ? 4'hF : 4'h0;
-    assign vgaGreen = (visible) ? 4'hF : 4'h0;
-    assign vgaBlue  = (visible) ? 4'hF : 4'h0;
+
+    renderer u_renderer (
+        .x(x),
+        .y(y),
+        .visible(visible),
+        .vgaRed(vgaRed),
+        .vgaGreen(vgaGreen),
+        .vgaBlue(vgaBlue)
+    );
+
 endmodule
