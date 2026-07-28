@@ -7,8 +7,6 @@ module game_logic(
     input wire up_R,
     input wire down_R,
 
-    input wire hitL,
-    input wire hitR,
     output reg [9:0] ball_x = 312,
     output reg [9:0] ball_y = 232,
     output reg [9:0] pad_L_y = 200,
@@ -27,18 +25,32 @@ module game_logic(
     reg dirx = 1;
     reg diry = 1;
 
+    //衝突判定
+    wire hitL = (ball_x + BALL >= PADX_L) && (ball_x <= PADX_L + PW) && (ball_y + BALL >= pad_L_y) && (ball_y <= pad_L_y + PH);
+    wire hitR = (ball_x + BALL >= PADX_R) && (ball_x <= PADX_R + PW) && (ball_y + BALL >= pad_R_y) && (ball_y <= pad_R_y + PH);
+
+    //　ボールの移動--壁の判定
+
     always @(posedge clk) begin
-        if (frame_tick) begin
+        if (rst) begin
+            ball_x <= 312;
+            ball_y <= 232;
+            scoreR <= 0;
+            scoreL <= 0;
+            dirx <= 1;
+            diry <= 1;
+
+        end else if (frame_tick) begin
             if (ball_y <= 2) begin
                 diry <= 1;
             end
             if (ball_y + BALL >= 478) begin
                 diry <= 0;
             end
-            if (ball_x <= 2) begin
+            if (hitL) begin
                 dirx <= 1;
             end
-            if (ball_x + BALL >= 638) begin
+            if (hitR) begin
                 dirx <= 0;
             end
             
@@ -56,6 +68,20 @@ module game_logic(
                 ball_x <= ball_x - BSPD;
             end
 
+            if(ball_x <= 2) begin
+                scoreR <= scoreR + 1;
+                ball_x <= 312;
+                ball_y <= 232;
+                dirx   <= 1;
+            end
+
+            if(ball_x + BALL >= 638) begin
+                scoreL <= scoreL + 1;
+                ball_x <= 312;
+                ball_y <= 232;
+                dirx   <= 0;
+            end
+
 
         end
 
@@ -64,8 +90,13 @@ module game_logic(
         
     end
 
+    //パドルの移動
+
     always @(posedge clk) begin
-        if (frame_tick) begin
+        if (rst) begin
+            pad_L_y <= 200;
+            pad_R_y <= 200;
+        end else if (frame_tick) begin
             if (up_L && pad_L_y > 2) begin
                 pad_L_y <= pad_L_y - PSPD;
             end
@@ -80,6 +111,8 @@ module game_logic(
             end
         end
     end
+
+    
             
 
 
