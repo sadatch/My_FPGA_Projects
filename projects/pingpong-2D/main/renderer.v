@@ -2,6 +2,11 @@ module renderer(
     input wire [9:0] x,
     input wire [9:0] y,
     input wire visible,
+
+    input wire [9:0] ball_x,
+    input wire [9:0] ball_y,
+    input wire [9:0] pad_L_y,
+    input wire [9:0] pad_R_y,
     output reg [3:0] vgaRed,
     output reg [3:0] vgaGreen,
     output reg [3:0] vgaBlue
@@ -22,9 +27,9 @@ module renderer(
     endfunction
 
     // ----各パーツの短形判定 ----
-    wire ball_on = in_rect(x, y, 312, 232, BALL, BALL);
-    wire padL_on = in_rect(x, y, PADX_L, 200, PW, PH);
-    wire padR_on = in_rect(x, y, PADX_R, 200, PW, PH);
+    wire ball_on = in_rect(x, y, ball_x, ball_y, BALL, BALL);
+    wire padL_on = in_rect(x, y, PADX_L, pad_L_y, PW, PH);
+    wire padR_on = in_rect(x, y, PADX_R, pad_R_y, PW, PH);
     wire border  = (x < 2) || (x >= 638) || (y < 2) || (y >= 478);
     wire midline = (x >= 319) && (x < 321) && (y[4] == 1'b0);
 

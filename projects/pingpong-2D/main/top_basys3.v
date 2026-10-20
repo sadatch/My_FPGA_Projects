@@ -32,10 +32,25 @@ module top_basys3(
         .y(y)
     );
 
+    game_logic u_game_logic (
+        .clk(clk),
+        .rst(rst),
+        .frame_tick(frame_tick),
+        .up_L()
+
+    );
+
+    wire [9:0] ball_x, ball_y;
+    wire [9:0] pad_L_y, pad_R_y;
+
     renderer u_renderer (
         .x(x),
         .y(y),
         .visible(visible),
+        .ball_x(ball_x),
+        .ball_y(ball_y),
+        .pad_L_y(pad_L_y),
+        .pad_R_y(pad_R_y),
         .vgaRed(vgaRed),
         .vgaGreen(vgaGreen),
         .vgaBlue(vgaBlue)
