@@ -15,6 +15,12 @@ module top_basys3(
     output wire       dp,
     output wire [3:0] an
 );
+
+    assign led = 16'h0000;
+    assign seg = 7'b1111111;
+    assign dp = 1;
+    assign an = 4'b1111;
+
     wire pix_clk;
     clk_div25 u_clkdiv (
         .clk_in(clk),
@@ -32,16 +38,36 @@ module top_basys3(
         .y(y)
     );
 
+    wire [9:0] ball_x, ball_y;
+    wire [9:0] pad_L_y, pad_R_y;
+    wire [3:0] scoreL, scoreR;
+    reg frame_tick;
+    always @(*) begin
+        if ((x == 0) && (y == 0)) begin
+            frame_tick = 1;
+        end else begin
+            frame_tick = 0;
+        end
+    end
+
     game_logic u_game_logic (
-        .clk(clk),
-        .rst(rst),
+        .clk(pix_clk),
+        .rst(btnC),
         .frame_tick(frame_tick),
-        .up_L()
+        .up_L(btnU),
+        .down_L(btnL),
+        .up_R(btnR),
+        .down_R(btnD),
+        .ball_x(ball_x),
+        .ball_y(ball_y),
+        .pad_L_y(pad_L_y),
+        .pad_R_y(pad_R_y),
+        .scoreL(scoreL),
+        .scoreR(scoreR)
 
     );
 
-    wire [9:0] ball_x, ball_y;
-    wire [9:0] pad_L_y, pad_R_y;
+    
 
     renderer u_renderer (
         .x(x),
