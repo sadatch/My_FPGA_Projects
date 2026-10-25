@@ -1,5 +1,24 @@
-out/
+# --- build output: ignore everything in out/ except the bitstream ---
+out/*
+!out/*.bit
+
+# --- Vivado GUI project (pingpong-2D/pingpong-2D/): keep only the .xpr, ignore generated files ---
+pingpong-2D/*.runs/
+pingpong-2D/*.cache/
+pingpong-2D/*.hw/
+pingpong-2D/*.sim/
+pingpong-2D/*.ip_user_files/
+pingpong-2D/*.gen/
+pingpong-2D/*.srcs/
+
+# --- Vivado misc ---
+.Xil/
 *.jou
 *.log
-.Xil/
+clockInfo.txt
+dfx_runtime.txt
+webtalk*
+*.backup.*
+
+# --- OS ---
 .DS_Store
