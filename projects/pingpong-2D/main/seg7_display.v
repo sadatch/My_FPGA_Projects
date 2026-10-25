@@ -15,6 +15,10 @@ module seg7_display(
 
     reg [3:0] current_digit;
 
+    wire [3:0] right_player_point = scoreR;
+    wire [3:0] left_player_point = scoreL;
+
+
     assign right_player_point = scoreR;
     assign left_player_point = scoreL;
 
@@ -33,7 +37,9 @@ module seg7_display(
                 current_digit = 4'hE;
             end
             2'b11: begin
-                ab = 4'b1011;
+                an = 4'b0111;
                 current_digit = right_player_point;
+            end
         endcase
+    end
 endmodule
