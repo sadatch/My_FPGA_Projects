@@ -27,6 +27,42 @@ module top_basys3(
         .clk_out(pix_clk)
     );
 
+    wire clean_btnU;
+    wire clean_btnD;
+    wire clean_btnL;
+    wire clean_btnR;
+    wire clean_btnC;
+
+    debounce btnU_debounce (
+        .clk(pix_clk),
+        .btn_raw(btnU),
+        .btn_clean(clean_btnU)
+    );
+
+    debounce btnD_debounce (
+        .clk(pix_clk),
+        .btn_raw(btnD),
+        .btn_clean(clean_btnD)
+    );
+
+    debounce btnL_debounce (
+        .clk(pix_clk),
+        .btn_raw(btnL),
+        .btn_clean(clean_btnL)
+    );
+
+    debounce btnR_debounce (
+        .clk(pix_clk),
+        .btn_raw(btnR),
+        .btn_clean(clean_btnR)
+    );
+
+    debounce btnC_debounce (
+        .clk(pix_clk),
+        .btn_raw(btnC),
+        .btn_clean(clean_btnC)
+    );
+
     wire [9:0] x, y;
     wire visible;
     vga_640x480 u_vga (
@@ -52,12 +88,12 @@ module top_basys3(
 
     game_logic u_game_logic (
         .clk(pix_clk),
-        .rst(btnC),
+        .rst(clean_btnC),
         .frame_tick(frame_tick),
-        .up_L(btnU),
-        .down_L(btnL),
-        .up_R(btnR),
-        .down_R(btnD),
+        .up_L(clean_btnU),
+        .down_L(clean_btnL),
+        .up_R(clean_btnR),
+        .down_R(clean_btnD),
         .ball_x(ball_x),
         .ball_y(ball_y),
         .pad_L_y(pad_L_y),
