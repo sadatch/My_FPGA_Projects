@@ -61,6 +61,8 @@ module top_basys3(
         .btn_clean(clean_btnC)
     );
 
+    wire btn_any_push = clean_btnU | clean_btnD | clean_btnL | clean_btnR | clean_btnC;
+
     wire [9:0] x, y;
     wire visible;
     vga_640x480 u_vga (
@@ -92,6 +94,7 @@ module top_basys3(
         .down_L(clean_btnL),
         .up_R(clean_btnR),
         .down_R(clean_btnD),
+        .btn_push(btn_any_push),
         .ball_x(ball_x),
         .ball_y(ball_y),
         .pad_L_y(pad_L_y),

@@ -6,7 +6,7 @@ module game_logic(
     input wire down_L,
     input wire up_R,
     input wire down_R,
-
+    input wire btn_push,
     output reg [9:0] ball_x = 312,
     output reg [9:0] ball_y = 232,
     output reg [9:0] pad_L_y = 200,
@@ -22,6 +22,44 @@ module game_logic(
     localparam PADX_L = 16;
     localparam PADX_R = 640 - 16 - PW;
 
+    //ゲームの状態
+    localparam TITLE = 0;
+    localparam GAME = 1;
+    localparam OVER = 2;
+    localparam PAUSE = 3;
+
+    //立ち上がり判定
+    reg btn_prev = 0;
+    always @(posedge clk) begin
+        if(frame_tick) btn_prev <= btn_push;
+    end
+
+    wire btn_any_pressed = btn_push && !btn_prev;
+
+    //ゲーム終了
+    localparam WIN = 7;
+    reg [1:0] state = TITLE;
+
+    //ゲームの状態遷移
+
+    always @(posedge clk) begin
+        if(rst)begin
+            state <= TITLE;
+        end else if (frame_tick) begin
+            case (state)
+            TITLE: begin
+                if (btn_any_pressed) state <= GAME;
+            end
+            GAME: begin
+                if (scoreL == WIN | scoreR == WIN) state <= OVER;
+            end
+            OVER: begin
+                if (btn_any_pressed) state <= TITLE;
+            end
+            default: state <= TITLE;
+            endcase
+        end
+    end
     reg dirx = 1;
     reg diry = 1;
 
@@ -32,7 +70,7 @@ module game_logic(
     //　ボールの移動--壁の判定
 
     always @(posedge clk) begin
-        if (rst) begin
+        if (rst | state == TITLE) begin
             ball_x <= 312;
             ball_y <= 232;
             scoreR <= 0;
@@ -40,7 +78,7 @@ module game_logic(
             dirx <= 1;
             diry <= 1;
 
-        end else if (frame_tick) begin
+        end else if (frame_tick && state == GAME) begin
             if (ball_y <= 2) begin
                 diry <= 1;
             end
