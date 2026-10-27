@@ -17,9 +17,7 @@ module top_basys3(
 );
 
     assign led = 16'h0000;
-    assign seg = 7'b1111111;
     assign dp = 1;
-    assign an = 4'b1111;
 
     wire pix_clk;
     clk_div25 u_clkdiv (
@@ -101,6 +99,13 @@ module top_basys3(
         .scoreL(scoreL),
         .scoreR(scoreR)
 
+    );
+    seg7_display u_seg7_display (
+        .clk(clk),
+        .scoreR(scoreR),
+        .scoreL(scoreL),
+        .seg(seg),
+        .an(an)
     );
 
     

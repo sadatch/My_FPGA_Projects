@@ -16,7 +16,7 @@ read_verilog main/renderer.v
 read_verilog main/vga_640x480.v
 read_verilog main/top_basys3.v
 # add this line after seg7_display.v is fixed and used by top_basys3:
-# read_verilog main/seg7_display.v
+read_verilog main/seg7_display.v
 
 read_xdc constraints/pingpong.xdc
 
