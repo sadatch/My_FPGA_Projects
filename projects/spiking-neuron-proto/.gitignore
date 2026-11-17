@@ -1,0 +1,36 @@
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+
+# --- シミュレーション生成物 ---
+build/
+sim/out/
+*.vvp
+*.vcd
+*.fst
+*.ppm
+
+# --- Vivado: out/ はビットストリームだけ残す（pingpong-2D と同じ流儀）---
+out/*
+!out/*.bit
+.Xil/
+*.jou
+*.log
+*.str
+*.cache/
+*.runs/
+*.gen/
+*.hw/
+*.sim/
+*.ip_user_files/
+clockInfo.txt
+dfx_runtime.txt
+webtalk*
+*.backup.*
+
+# --- OS / エディタ ---
+.DS_Store
+*~
+*.swp
+.vscode/
